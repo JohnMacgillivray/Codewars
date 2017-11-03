@@ -1,0 +1,70 @@
+https://www.codewars.com/kata/5270f22f862516c686000161
+
+Extend the String object (JS) or create a function (Python, C#) that converts the value of the String to and from Base64 using the ASCII (UTF-8 for C#) character set.
+
+Do not use built in functions.
+
+Usage:
+
+# should return 'dGhpcyBpcyBhIHN0cmluZyEh'
+to_base_64('this is a string!!')
+
+# should return 'this is a string!!'
+from_base_64('dGhpcyBpcyBhIHN0cmluZyEh')
+
+def to_base_64(string):
+    g=[]
+    t=[]
+    ans=''
+    for j in string:
+        k=bin(ord(j))[2:]
+        z='0'*(8-len(k))
+        g.append(z + k)
+    i=''.join(g)
+    if len(i)%6 !=0:
+        i+='0'*(6-(len(i)%6))
+    for p in range(0,len(i), 6):
+     if len(i)-p>5:
+      t.append((int(i[p:p+6], 2)))
+    for k in range(0,len(t)):
+     if t[k]<26:
+      ans+=chr(t[k]+65)
+     if 25<t[k]<52:
+      ans+=chr(t[k]+71)
+     if 52<t[k]<62:
+      ans+=chr(t[k]-4)
+     if t[k]==52:
+      ans+=chr(48)
+     if t[k]==62:
+      ans+=chr(43)
+     if t[k]==63:
+      ans+=chr(47)
+    return ans
+       
+def from_base_64(string):
+    g=[]
+    t=[]
+    ans=''
+    for j in string:
+        if j.isupper():
+            x=ord(j)-65
+        if j.islower():
+            x=ord(j)-71
+        if j in '123456789':
+            x=ord(j)+4
+        if j=='0':
+           x=52
+        if j=='+':
+            x=62
+        if j=='/':
+            x=63
+        k=bin(x)[2:]
+        z='0'*(6-len(k))
+        g.append(z + k)
+    i=''.join(g)
+    for p in range(0,len(i), 8):
+      if len(i)-p>7:
+       t.append((int(i[p:p+8], 2)))
+    for k in range(0,len(t)):
+      ans+=chr(t[k])
+    return ans
