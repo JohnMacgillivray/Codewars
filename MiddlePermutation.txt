@@ -1,0 +1,40 @@
+https://www.codewars.com/kata/simple-fun-number-159-middle-permutation/python
+
+Task
+
+You are given a string s. Every letter in s appears once.
+
+Consider all strings formed by rearranging the letters in s. After ordering these strings in dictionary order, return the middle term. (If the sequence has a even length n, define its middle term to be the (n/2)th term.)
+
+Example
+
+For s = "abc", the result should be "bac".
+
+The permutations in order are:
+"abc", "acb", "bac", "bca", "cab", "cba"
+So, The middle term is "bac".
+Input/Output
+
+[input] string s
+
+unique letters (2 < length <= 26)
+[output] a string
+
+###My Solution:
+
+def middle_permutation(string):
+    a=[i for i in string]
+    a.sort()
+    string=''.join(a)
+    if len(string)%2==0:
+     j=''
+     for i in range(0,len(string)-1):
+      if i!=len(string)//2-1 :
+       j+=string[i]
+     return string[len(string)//2 -1] + string[-1] + j[::-1]
+    else:
+     j=''
+     for i in range(0,len(string)):
+      if i!=len(string)//2 and i!=len(string)//2 -1:
+       j+=string[i]
+     return string[len(string)//2] + string[len(string)//2 -1] + j[::-1]

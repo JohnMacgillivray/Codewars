@@ -1,0 +1,7 @@
+https://www.codewars.com/kata/one-line-task-palindrome-string
+
+Your task is to generate a palindrome string, using the specified length n, the specified characters c(all characters in c must be used at least once), and the code length should less than: python 55 characters 
+NB: the function HAS to be named 'palindrome'
+###My solution:
+
+palindrome=lambda n,c:c[:0:-1]+c[0]*(n-2*len(c)+1)+c
