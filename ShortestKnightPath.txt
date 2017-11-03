@@ -1,0 +1,36 @@
+https://www.codewars.com/kata/shortest-knight-path/python
+
+Given two different positions on a chess board, find the least number of moves it would take a knight to get from one to the other. The positions will be passed as two arguments in algebraic notation. For example, knight("a3", "b5") should return 1.
+
+The knight is not allowed to move off the board. The board is 8x8.
+
+##My solution:
+
+def knight(p1, p2):
+    x=abs(ord(p1[0]) - ord(p2[0]))
+    y=abs(int(p1[1]) - int(p2[1]))
+    if x<y:
+     a=x
+     b=y
+    else:
+     a=y
+     b=x
+    array=[
+    [0,3,2,3,2,3,4,5],
+    [0,2,1,2,3,4,3,4],
+    [0,0,4,3,2,3,4,5],
+    [0,0,0,2,3,4,3,4],
+    [0,0,0,0,4,3,4,5],
+    [0,0,0,0,0,4,5,4],
+    [0,0,0,0,0,0,4,5],
+    [0,0,0,0,0,0,0,6]]
+    if p1=='g7' and p2=='h8' or p1=='h8' and p2=='g7' or p1=='g2' and p2=='h1' or p1=='h1' and p2=='g2' or p1=='b7' and p2=='a8' or p1=='a8' and p2=='b7' or p1=='b2' and p2=='a1' or p1=='a1' and p2=='b2':
+     return 4
+    else:
+     return array[a][b]
+
+###By using the symmetry of the chess board, I noted that if you put a knight on the corner of the board and 
+###Work out how many moves it takes to get to the squares on one diagonal half of the board, you can use this information
+###To say how many moves it takes to get from any square on the board to any other square.
+###The line underneath the array is to account for specific literal edge cases where the side of the board restricts the knight's movement.
+
