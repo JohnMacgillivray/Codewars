@@ -1,0 +1,49 @@
+http://www.codewars.com/kata/decode-the-morse-code-advanced
+
+###My Solution
+
+def decodeBits(s):
+     while s[0]=='0' or s[-1]=='0':
+      if s[0]=='0':
+         s=s[1:]
+      if s[-1]=='0':
+         s=s[:-1]
+     r=s.split('1')
+     j=s.split('0')
+     w=r+j
+     z=[]
+     for i in w:
+      if i!='':
+       z.append(len(i))
+     n=min(z)
+     print(n)
+     j=s.split('0000000'*n)
+     k=[]
+     for i in j:
+      if len(i)>0:
+        k.append(i)
+     z=[]
+     for i in k:
+      word=[]
+      g=i.split('000'*n)
+      for j in g:
+        letters=[]
+        c=j.split('0'*n)
+        for p in c:
+            if p=='1'*n:
+                letters.append('.')
+            if p=='111'*n:
+                letters.append('-')
+        word.append(''.join(letters))
+      z.append(' '.join(word))
+     return '   '.join(z)
+
+
+def decodeMorse(morseCode):    
+     ans=[]
+     s=morseCode.split('   ')
+     for i in range(0,len(s)):
+      j=s[i].split(' ')
+      word=''.join(MORSE_CODE[p] for p in j)
+      ans.append(word)
+     return ' '.join(ans)
