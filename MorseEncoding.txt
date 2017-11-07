@@ -1,0 +1,121 @@
+https://www.codewars.com/kata/morse-encoding/python
+
+You are writing an encoder/decoder to convert between javascript strings and a binary representation of Morse code.
+
+Each Morse code character is represented by a series of "dots" and "dashes". In binary, a dot is a single bit (1) and a dash is three bits (111). 
+Between each dot or dash within a single character, we place a single zero bit. (I.e. "dot dash" would become 10111.) 
+Separate characters are separated by three zero bits (000). 
+Words are spearated by a single space, which is represented by 7 zero bits (0000000).
+
+The first method Morse.encode will take a String representing the message and will return an array of signed 32-bit integers in big-endian order and in two's complement format. (Note: This is the standard format for numbers returned by JavaScript bitwise operators.) Since it is possible that the Morse encoded message will not align perfectly with the binary 32-bit numbers, all unused bits are to be padded with 0's. 
+
+The second method Morse.decode will take an array of numbers and return the String representation of the message.
+
+###My Solution
+
+alpha={
+  'A': '10111',
+  'B': '111010101',
+  'C': '11101011101',
+  'D': '1110101',
+  'E': '1',
+  'F': '101011101',
+  'G': '111011101',
+  'H': '1010101',
+  'I': '101',
+  'J': '1011101110111',
+  'K': '111010111',
+  'L': '101110101',
+  'M': '1110111',
+  'N': '11101',
+  'O': '11101110111',
+  'P': '10111011101',
+  'Q': '1110111010111',
+  'R': '1011101',
+  'S': '10101',
+  'T': '111',
+  'U': '1010111',
+  'V': '101010111',
+  'W': '101110111',
+  'X': '11101010111',
+  'Y': '1110101110111',
+  'Z': '11101110101',
+  '0': '1110111011101110111',
+  '1': '10111011101110111',
+  '2': '101011101110111',
+  '3': '1010101110111',
+  '4': '10101010111',
+  '5': '101010101',
+  '6': '11101010101',
+  '7': '1110111010101',
+  '8': '111011101110101',
+  '9': '11101110111011101',
+  '.': '10111010111010111',
+  ',': '1110111010101110111',
+  '?': '101011101110101',
+  "'": '1011101110111011101',
+  '!': '1110101110101110111',
+  '/': '1110101011101',
+  '(': '111010111011101',
+  ')': '1110101110111010111',
+  '&': '10111010101',
+  ':': '11101110111010101',
+  ';': '11101011101011101',
+  '=': '1110101010111',
+  '+': '1011101011101',
+  '-': '111010101010111',
+  '_': '10101110111010111',
+  '"': '101110101011101',
+  '$': '10101011101010111',
+  '@': '10111011101011101',
+  ' ': '0'}
+beta = dict(reversed(item) for item in alpha.items())
+class Morse:
+    @classmethod
+    def encode(self,message):
+        a=[]
+        for i in message:
+         if i in alpha:
+          a.append(alpha[i])
+        k='000'.join(a)
+        k+= '0'* (32 - len(k)%32)
+        b=[]
+        for j in range(0,len(k), 32):
+         if int(k[j:j+32], 2) >= 2**31:
+          b.append(int(k[j:j+32], 2)-2**32)
+         else:
+          b.append(int(k[j:j+32], 2))
+        return b
+    @classmethod
+    def decode(self,array):
+        for i in range(0,len(array)):
+         if array[i]<0:
+          array[i]+=2**32
+         if array[i]>=2**32:
+          array[i]-=2**32
+        b=[]
+        for k in range(0,len(array)):
+         p=str(bin(array[k])[2:])
+         b.append('0'*(32 -len(p)) + p)
+        s=''.join(b)
+        x=s.split('0000000')
+        x='000blah000'.join(x)
+        x=x.split('000')
+        g=''
+        for i in x:
+         if i in beta:
+          g+=(beta[str(i)])
+         else:
+          if i=='blah':
+             g+=' '
+        if x[-1] not in beta:
+         if x[-1][:-1] in beta:
+          y=(x[-1][:-1])
+          g+=beta[y]
+         else:
+             if x[-1][:-2] in beta:
+                 z=(x[-1][:-2])
+                 g+=beta[z]
+        while g[-1]==' ':
+         g=g[:-1]
+        return g
