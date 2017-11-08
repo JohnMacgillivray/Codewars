@@ -16,7 +16,6 @@ def decodeBits(s):
       if i!='':
        z.append(len(i))
      n=min(z)
-     print(n)
      j=s.split('0000000'*n)
      k=[]
      for i in j:
