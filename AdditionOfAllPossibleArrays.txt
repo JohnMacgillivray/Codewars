@@ -1,0 +1,38 @@
+https://www.codewars.com/kata/568f2d5762282da21d000011
+
+We have three numbers: 123489, 5, and 67. With these numbers we form the list from their digits in this order [1, 5, 6, 2, 7, 3, 4, 8, 9]. (How can we produce that?) (In this case all the digits are different)
+
+Furthermore, we want to put a limit to the number of terms of the above list.
+
+Instead of having nine terms, we want to have only seven. (we take the two last ones)
+
+So, our list will be reduced to [1, 5, 6, 2, 7, 3, 4] (base list)
+
+We form all the possible arrays, from the list above, and we calculate, for each array, the addition of their respective digits.
+
+The challenge: create the function gta(), that receives a number that limits the amount of terms for the base list, limit, and an uncertain number of integers that can have and will have different amount of digits that may have digits occuring more than once.
+
+Just to understand the structure of the function will be like: gta(limit, n1, n2, ...nk)
+
+# case1
+gta(7, 123489, 5, 67) == 328804 # base_list = [1, 5, 6, 2, 7, 3, 4]
+
+# case2
+gta(8, 12348, 47, 3639) == 3836040 # base_list = [1, 4, 3, 2, 7, 6, 9, 8]
+###My Solution
+
+def gta(limit, *args):
+    g=[]
+    for i in range(0,len(str(max(args)))):
+     for j in args:
+      if i<len(str(j)):
+       if int(str(j)[i]) not in g:
+        g.append(int(str(j)[i]))
+    g=g[:limit]
+    num=0
+    for i in range(1,limit+1):
+     j=1
+     for k in range(limit,limit-i,-1):
+      j*=k
+     num+=j*i/limit
+    return num*sum(g)
