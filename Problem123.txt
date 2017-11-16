@@ -1,0 +1,25 @@
+#problem 123
+        
+sieve = [True] * 1000000
+
+def mark(sieve, x):
+    for i in range(x+x, len(sieve), x):
+        sieve[i] = False
+
+for x in range(2,int(len(sieve) ** 0.5)+ 1):
+    if sieve[x]:
+        mark(sieve, x)
+
+
+a=[]
+for i in range(2, len(sieve)):
+    if sieve[i]:
+        a.append(i)
+
+for i in range(9592,len(a)):
+     q=a[i]
+     k=(q-1)**(i+1) + (q+1)**(i+1)
+     j=k%(q**2)
+     if j>10**10:
+         print(i+1)
+         break
