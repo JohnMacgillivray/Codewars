@@ -1,0 +1,55 @@
+https://www.codewars.com/kata/52bb6539a4cf1b12d90005b7
+
+Write a method that takes a field for well-known board game "Battleship" 
+as an argument and returns true if it has a valid disposition of ships,
+false otherwise. Argument is guaranteed to be 10*10 two-dimension array.
+Elements in the array are numbers, 0 if the cell is free and 1 if occupied by ship.
+
+Battleship (also Battleships or Sea Battle) is a guessing game for two players.
+Each player has a 10x10 grid containing several "ships" and objective is to destroy enemy's
+forces by targetting individual cells on his field. The ship occupies one or more cells in
+the grid. Size and number of ships may differ from version to version.
+In this kata we will use Soviet/Russian version of the game.
+
+efore the game begins, players set up the board and place the ships accordingly to the following rules:
+There must be single battleship (size of 4 cells), 2 cruisers (size 3),
+3 destroyers (size 2) and 4 submarines (size 1). Any additional ships are not allowed, as well as missing ships.
+Each ship must be a straight line, except for submarines, which are just single cell.
+
+The ship cannot overlap or be in contact with any other ship, neither by edge nor by corner.
+
+###My Solution
+
+def validateBattlefield(field):
+    ships=[]
+    fail=False
+    for i in range(0,len(field)):
+     for j in range(0,len(field)):
+      if field[i][j]==1:
+       ships.append([i,j])
+    four=0
+    three=0
+    two=0
+    one=0
+    for j in ships:
+      if [j[0],j[1]+1] in ships and [j[0],j[1]+2] in ships and [j[0],j[1]+3] in ships:
+       four+=1
+      if [j[0]+1,j[1]] in ships and [j[0]+2,j[1]] in ships and [j[0]+3,j[1]] in ships:
+       four+=1
+      if [j[0],j[1]+1] in ships and [j[0],j[1]+2] in ships and [j[0],j[1]+3] not in ships:
+       three+=1
+      if [j[0]+1,j[1]] in ships and [j[0]+2,j[1]] in ships and [j[0]+3,j[1]] not in ships:
+       three+=1
+      if [j[0],j[1]+1] in ships and [j[0],j[1]+2] not in ships:
+       two+=1
+      if [j[0]+1,j[1]] in ships and [j[0]+2,j[1]] not in ships:
+       two+=1
+      if [j[0]-1,j[1]+1] in ships or [j[0]+1,j[1]-1] in ships:
+       fail=True
+    three-=1
+    two-=3
+    one+=20-(4*four)-(3*three)-(2*two)
+    if len(ships)==20 and four==1 and three==2 and two==3 and one==4 and fail==False:
+      return True
+    else:
+     return False
