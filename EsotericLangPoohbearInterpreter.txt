@@ -1,0 +1,83 @@
+https://www.codewars.com/kata/59a9735a485a4d807f00008a
+
+Create a function that interprets code in the esoteric language 'Poohbear'
+
+The Language
+
+Poohbear is a stack-based language largely inspired by Brainfuck. 
+It has a maximum integer value of 255, and 30,000 cells. 
+The original intention of Poohbear was to be able to send messages that would, to most, be completely indecipherable
+
+https://esolangs.org/wiki/Poohbear
+
+###My Solution
+
+def poohbear(s):
+    c=0
+    output=''
+    tape=[0]
+    pointer=0
+    i=0
+    while i<len(s):
+     if s[i]=='+':
+      tape[pointer]+=1
+      tape[pointer]=tape[pointer]%256
+     if s[i]=='-':
+      tape[pointer]-=1
+      if tape[pointer]<0:
+       tape[pointer]+=256     
+     if s[i]=='<':
+      pointer-=1
+      if pointer==-1:
+        tape=[0]+tape
+        pointer=0
+     if s[i]=='>':
+      pointer+=1
+      if pointer>len(tape)-1:
+        tape.append(0)
+     if s[i]=='c':
+      c=tape[pointer]
+     if s[i]=='p':
+      tape[pointer]=c
+     if s[i]=='W':
+       left=i
+       if tape[pointer]==0:
+         while s[i]!='E':
+          i+=1
+     if s[i]=='E':
+      if tape[pointer]!=0:
+       i=left
+     if s[i]=='P':
+      output+=chr(tape[pointer])
+     if s[i]=='N':
+      output+=str(tape[pointer])
+     if s[i]=='T':
+      tape[pointer]=(tape[pointer]*2)%256
+     if s[i]=='Q':
+      tape[pointer]=(tape[pointer]**2)%256
+     if s[i]=='U':
+      tape[pointer]=int(tape[pointer]**.5)%256
+     if s[i]=='L':
+      tape[pointer]+=2
+      tape[pointer]=tape[pointer]%256
+     if s[i]=='I':
+      tape[pointer]-=2
+      if tape[pointer]<0:
+       tape[pointer]+=256
+     if s[i]=='V':
+      tape[pointer]=int(tape[pointer]/2)
+     if s[i]=='A':
+      tape[pointer]+=c
+      tape[pointer]=tape[pointer]%256
+     if s[i]=='B':
+      tape[pointer]-=c
+      if tape[pointer]<0:
+       tape[pointer]+=256
+     if s[i]=='Y':
+      tape[pointer]*=c
+      tape[pointer]=tape[pointer]%256
+     if s[i]=='D':
+      tape[pointer]=int(tape[pointer]/c)
+     i+=1
+    return output
+
