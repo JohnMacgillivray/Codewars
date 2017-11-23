@@ -1,0 +1,36 @@
+https://www.codewars.com/kata/520446778469526ec0000001
+
+Complete the function/method (depending on the language) to return true/True when its argument is an array that has the same nesting structure as the first array.
+
+For example:
+
+# should return True
+same_structure_as([ 1, 1, 1 ], [ 2, 2, 2 ] )
+same_structure_as([ 1, [ 1, 1 ] ], [ 2, [ 2, 2 ] ] )
+
+# should return False 
+same_structure_as([ 1, [ 1, 1 ] ], [ [ 2, 2 ], 2 ] )
+same_structure_as([ 1, [ 1, 1 ] ], [ [ 2 ], 2 ] )
+
+# should return True
+same_structure_as([ [ [ ], [ ] ] ], [ [ [ ], [ ] ] ] )
+
+# should return False
+same_structure_as([ [ [ ], [ ] ] ], [ [ 1, 1 ] ] )
+
+###My Solution
+
+def same_structure_as(original,other):
+  i,j=original,other
+  if type(i)!=type(j):
+   if type(i)==list or type(j)==list:
+    return False
+  for s in i:
+     for k in j:
+      if type(s)!=type(k) and i.index(s)==j.index(k):
+       if type(s)==list or type(k)==list:
+        return False
+      if type(s)==list and type(k)==list and i.index(s)==j.index(k):
+       if same_structure_as(s,k)==False or len(s)!=len(k):
+        return False
+  return True
