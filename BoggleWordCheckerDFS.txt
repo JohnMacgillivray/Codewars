@@ -1,0 +1,53 @@
+https://www.codewars.com/kata/57680d0128ed87c94f000bfd
+
+Write a function that determines whether a string is a valid guess in a Boggle board, as per the rules of Boggle.
+
+A Boggle board is a 2D array of individual characters, e.g.:
+
+[ ["I","L","A","W"],
+  ["B","N","G","E"],
+  ["I","U","A","O"],
+  ["A","S","R","L"] ]
+
+Valid guesses are strings which can be formed by connecting adjacent cells (horizontally, vertically, or diagonally) 
+
+without re-using any previously used cells.
+
+For example, in the above board "BINGO", "LINGO", and "ILNBIA" would all be valid guesses, 
+
+while "BUNGIE", "BINS", and "SINUS" would not.
+
+Your function should take two arguments (a 2D array and a string) 
+
+and return true or false depending on whether the string is found in the array as per Boggle rules.
+
+Test cases will provide various array and string sizes. 
+
+The array will always be a square 2D array of single capitalized characters,
+
+and the string will always be a single capitalized word.
+
+You do not have to check whether the string is a real word or not, only if it's a valid guess.
+
+###My Solution
+
+###I devised a method using the same idea as a depth first search and came up with a backtracking loop 
+
+def find_word(board, word):
+    def neighbour(a,b):
+     if b=='t': return True
+     if abs(a[0]-b[0])<2 and abs(a[1]-b[1])<2: return True
+     else: return False
+    stack=[]
+    def loop(k):
+     for i in range(0,len(board)):
+      for j in range(0,len(board[0])):
+       if board[i][j]==word[k] and neighbour([i,j],stack[-1] if stack!=[] else 't') and [i,j] not in stack:
+        stack.append([i,j])
+        k+=1
+        if len(stack)==len(word):return True
+        if loop(k)==True: return True
+        k-=1
+        stack.remove([i,j])
+     return False
+    return loop(0)
