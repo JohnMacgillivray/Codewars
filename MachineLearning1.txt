@@ -22,7 +22,6 @@ class Machine:
         self.cmd=cmd
         if cmd in cache:
          last.append(cmd)
-         print(cmd, num, _actions[cache[cmd]](num))
          return _actions[cache[cmd]](num)
         else:
          cache[cmd]=0
