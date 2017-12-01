@@ -1,0 +1,79 @@
+https://www.codewars.com/kata/534e01fbbb17187c7e0000c6
+
+our task, is to create a NxN spiral with a given size.
+
+For example, spiral with size 5 should look like this:
+
+00000
+....0
+000.0
+0...0
+00000
+and with the size 10:
+
+0000000000
+.........0
+00000000.0
+0......0.0
+0.0000.0.0
+0.0..0.0.0
+0.0....0.0
+0.000000.0
+0........0
+0000000000
+Return value should contain array of arrays, of 0 and 1, for example for given size 5 result should be:
+
+[[1,1,1,1,1],[0,0,0,0,1],[1,1,1,0,1],[1,0,0,0,1],[1,1,1,1,1]]
+Because of the edge-cases for tiny spirals, the size will be at least 5.
+
+General rule-of-a-thumb is, that the snake made with '1' cannot touch to itself.
+
+###My Solution
+
+def spiralize(size):
+  if size==1: return [[1]]
+  s={'right':'down','down':'left','left':'up','up':'right'}
+  spiral=[]
+  t=0
+  while t<size:
+    spiral.append([0]*size)
+    t+=1
+  X=Y=count=0
+  y=[size]+[i for i in range(size-1,0,-2)]*2
+  y.sort()
+  y=y[::-1]
+  if y[-1]==1:
+    y=y[:-1]
+  d='right'
+  def move(i,j,d,count):
+      if count==len(y): return spiral
+      if d=='right':
+         for q in range(j,j+y[count]):
+           spiral[i][q]=1
+         d=s[d]
+         j+=y[count]-1
+         count+=1
+         i+=1
+      elif d=='down':
+        for q in range(i,i+y[count]):
+         spiral[q][j]=1
+        d=s[d]
+        i+=y[count]-1
+        count+=1 
+        j-=1
+      elif d=='left':
+        for q in range(j,j-y[count],-1):
+         spiral[i][q]=1
+        d=s[d]
+        j-=y[count]-1
+        count+=1
+        i-=1
+      elif d=='up':
+        for q in range(i,i-y[count],-1):
+          spiral[q][j]=1
+        d=s[d]
+        i-=y[count]-1
+        count+=1
+        j+=1
+      return move(i,j,d,count)
+  return move(X,Y,d,count)
