@@ -50,30 +50,24 @@ def spiralize(size):
       if d=='right':
          for q in range(j,j+y[count]):
            spiral[i][q]=1
-         d=s[d]
          j+=y[count]-1
-         count+=1
          i+=1
       elif d=='down':
         for q in range(i,i+y[count]):
          spiral[q][j]=1
-        d=s[d]
         i+=y[count]-1
-        count+=1 
         j-=1
       elif d=='left':
         for q in range(j,j-y[count],-1):
          spiral[i][q]=1
-        d=s[d]
         j-=y[count]-1
-        count+=1
         i-=1
       elif d=='up':
         for q in range(i,i-y[count],-1):
           spiral[q][j]=1
-        d=s[d]
         i-=y[count]-1
-        count+=1
         j+=1
+      d=s[d]
+      count+=1
       return move(i,j,d,count)
   return move(X,Y,d,count)
