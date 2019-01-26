@@ -1,0 +1,18 @@
+One Line Task: Circle Intersection - https://www.codewars.com/kata/one-line-task-circle-intersection/python 
+
+
+Given two congruent circles a and b of radius r, return the area of their intersection rounded down to the nearest integer.
+
+Code Limit
+Javascript: Less than 94 characters.
+
+Python: Less than 128 characters.
+
+Example
+For c1 = [0, 0], c2 = [7, 0] and r = 5,
+
+the output should be 14.
+
+##I abused a quirk of python 2.7 - this solution would not work in python 3+. 
+
+def circleIntersection(a,b,r):from math import *;g=hypot(a[0]-b[0],a[1]-b[1])/2/r;p=g<1;n=2*acos(g*p);return(n-sin(n))*p*r*r//1
